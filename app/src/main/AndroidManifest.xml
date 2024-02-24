@@ -12,6 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RowdyHacks"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAnElztz9wQkr2-Afszb_XGPeK2UeO-7K0" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
