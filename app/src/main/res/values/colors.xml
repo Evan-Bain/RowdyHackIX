@@ -2,6 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="limegreen">#00FF00</color>
+    <color name="lightlimegreen">#B4FFB0</color>
     <color name="seed">#006d3c</color>
     <color name="md_theme_light_primary">#006D3C</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
