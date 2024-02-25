@@ -37,7 +37,10 @@ class SafetyCardFragment : Fragment() {
         val city = arguments?.getString("city")
         val county = arguments?.getString("county")
 
-        binding.textViewCity.text = county.toString()
+        binding.countyText.text = county.toString()
+        binding.textViewCarSafetyBar.text = safetyArray?.get(0).toString()
+        binding.textViewPersonalSafetyBar.text = safetyArray?.get(1).toString()
+        binding.textViewPosessionSafetyBar.text = safetyArray?.get(2).toString()
 
         // Inflate the layout for this fragment
         return binding.root
