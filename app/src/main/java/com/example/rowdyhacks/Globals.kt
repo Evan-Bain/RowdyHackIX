@@ -22,8 +22,12 @@ object Globals {
         val robbery: List<Double> = listOf(98.6,86.1,81.8)
     )
 
-    val allBexarOri: List<String> = listOf(
+    val allBexarOri: List<String> = listOf("TX0150000", "TX0150100", "TX0150200", "TX0150300", "TX0150400", "TX0150500",
+        "TX0150700", "TX0150800", "TX0150900", "TX0151000", "TX0151100", "TX0151200",
+        "TX0151300", "TX0151400", "TX0151500", "TX0151600", "TX0151700", "TX0151900",
+        "TX0152000", "TX0152100", "TX0152300", "TX0153000", "TX015319E", "TX0153200",
+        "TX015349E", "TX0153500", "TX0153600", "TX0153800", "TX0157000")
 
-    )
+
 
 }

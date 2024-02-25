@@ -20,6 +20,7 @@ import com.example.rowdyhacks.cde.network.CdeApiClient
 import com.example.rowdyhacks.databinding.FragmentMapsBinding
 import com.example.rowdyhacks.fade
 import com.example.rowdyhacks.geocoder.LocationRepository
+import com.example.rowdyhacks.safetycard.SafetyCardFragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -160,7 +161,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLoadedCallba
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if(query != null) {
-                    viewModel.setAddressText(query)
+                    /*viewModel.setAddressText(query)
                     viewModel.setCarSafetyData("TX0070100", "motor-vehicle-theft")
                     viewModel.setPersonalSafetyData(
                         "TX0070100",
@@ -179,7 +180,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLoadedCallba
                             "larceny",
                             "robbery"
                         )
-                    )
+                    )*/
+
+                    childFragmentManager
+                        .beginTransaction()
+                        .add(R.id.frag_container_safety_view, SafetyCardFragment())
+                        .commit()
+
+                    binding.cardSafetyView.visibility = View.VISIBLE
                 }
                 return false
             }
