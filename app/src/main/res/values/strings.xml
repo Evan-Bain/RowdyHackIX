@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">RowdyHacks</string>
+    <string name="search_title">Search address</string>
+    <string name="map_of_the_earth_provided_by_google_maps">Map of the Earth provided by Google Maps</string>
 </resources>
