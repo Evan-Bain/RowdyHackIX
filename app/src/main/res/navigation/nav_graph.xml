@@ -3,11 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mapsFragment">
+    app:startDestination="@id/startFragment">
 
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.example.rowdyhacks.maps.MapsFragment"
-        android:label="fragment_maps"
+        android:label="Maps"
         tools:layout="@layout/fragment_maps" />
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="com.example.rowdyhacks.start.StartFragment"
+        android:label="Start"
+        tools:layout="@layout/fragment_maps">
+        <action
+            android:id="@+id/action_startFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
 </navigation>
