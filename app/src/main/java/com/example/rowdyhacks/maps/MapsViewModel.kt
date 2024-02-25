@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class MapsViewModel(
     private val locationRepository: LocationRepository,
-    private val carSafetyRepository: CdeRepository
+    private val cdeRepository: CdeRepository
 ) : ViewModel() {
 
     private val _addressText = MutableLiveData<String>()
@@ -53,7 +53,7 @@ class MapsViewModel(
 
     fun setCarSafetyData(ori: String, offense: String) {
         viewModelScope.launch {
-            carSafetyRepository.getCarSafetyActual(ori, offense)
+            cdeRepository.getCarSafetyActual(ori, offense)
                 .onSuccess {
                     _carSafetyActual.value = it.toString()
                 }
@@ -62,16 +62,48 @@ class MapsViewModel(
                 }
         }
     }
+
+    private val _possessionSafetyActual = MutableLiveData<String>()
+    val possessionSafetyActual: LiveData<String>
+        get() = _possessionSafetyActual
+
+    fun setPossessionSafetyData(ori: String, offense: List<String>) {
+        viewModelScope.launch {
+            cdeRepository.getPossessionSafetyActual(ori, offense)
+                .onSuccess {
+                    _possessionSafetyActual.value = it.toString()
+                }
+                .onFailure {
+                    _possessionSafetyActual.value = "Error: $it"
+                }
+        }
+    }
+
+    private val _personalSafetyActual = MutableLiveData<String>()
+    val personalSafetyActual: LiveData<String>
+        get() = _personalSafetyActual
+
+    fun setPersonalSafetyData(ori: String, offense: List<String>) {
+        viewModelScope.launch {
+            cdeRepository.getPersonalSafetyActual(ori, offense)
+                .onSuccess {
+                    _personalSafetyActual.value = it.toString()
+                }
+                .onFailure {
+                    _personalSafetyActual.value = "Error: $it"
+                }
+        }
+    }
 }
 
 class MapsViewModelFactory(
     private val locationRepository: LocationRepository,
-    private val carSafetyRepository: CdeRepository
+    private val cdeRepository: CdeRepository
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MapsViewModel::class.java)) {
-            return MapsViewModel(locationRepository, carSafetyRepository) as T
+            return MapsViewModel(locationRepository, cdeRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

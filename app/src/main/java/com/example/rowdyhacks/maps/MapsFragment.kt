@@ -161,6 +161,24 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLoadedCallba
                 if(query != null) {
                     viewModel.setAddressText(query)
                     viewModel.setCarSafetyData("TX0070100", "motor-vehicle-theft")
+                    viewModel.setPersonalSafetyData(
+                        "TX0070100",
+                        listOf(
+                            "aggravated-assault",
+                            "violent-crime",
+                            "homicide",
+                            "rape"
+                        )
+                    )
+                    viewModel.setPossessionSafetyData(
+                        "TX0070100",
+                        listOf(
+                            "burglary",
+                            "property-crime",
+                            "larceny",
+                            "robbery"
+                        )
+                    )
                 }
                 return false
             }
