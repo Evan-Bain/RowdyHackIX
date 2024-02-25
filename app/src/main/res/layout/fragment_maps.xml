@@ -9,18 +9,41 @@
             type="com.example.rowdyhacks.maps.MapsViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/text_view_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        android:weightSum="10"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/text_view_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".125"
+            android:text="@{viewModel.addressText}" />
+
+        <TextView
+            android:id="@+id/text_view_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".125"
+            android:text="@{viewModel.city}" />
+
+        <TextView
+            android:id="@+id/text_view_county"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".125"
+            android:text="@{viewModel.county}" />
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/map_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9.625"
             android:alpha="0"
             android:contentDescription="@string/map_of_the_earth_provided_by_google_maps" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </layout>
