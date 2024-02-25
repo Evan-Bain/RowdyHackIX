@@ -5,11 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.example.rowdyhacks.cde.CdeRepository
 import com.example.rowdyhacks.geocoder.LocationData
 import com.example.rowdyhacks.geocoder.LocationRepository
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class MapsViewModel(
     private val locationRepository: LocationRepository,
@@ -47,50 +49,52 @@ class MapsViewModel(
         return locationData.city
     }
 
-    private val _carSafetyActual = MutableLiveData<String>()
-    val carSafetyActual: LiveData<String>
+    private val _carSafetyActual = MutableLiveData<Int>()
+    val carSafetyActual: LiveData<Int>
         get() = _carSafetyActual
 
     fun setCarSafetyData(ori: String, offense: String) {
         viewModelScope.launch {
             cdeRepository.getCarSafetyActual(ori, offense)
                 .onSuccess {
-                    _carSafetyActual.value = it.toString()
+                    _carSafetyActual.value = it
                 }
                 .onFailure {
-                    _carSafetyActual.value = "Error: $it"
+                    _carSafetyActual.value = 0
                 }
         }
     }
 
-    private val _possessionSafetyActual = MutableLiveData<String>()
-    val possessionSafetyActual: LiveData<String>
+    private val _possessionSafetyActual = MutableLiveData<Int>()
+    val possessionSafetyActual: LiveData<Int>
         get() = _possessionSafetyActual
 
     fun setPossessionSafetyData(ori: String, offense: List<String>) {
         viewModelScope.launch {
             cdeRepository.getPossessionSafetyActual(ori, offense)
                 .onSuccess {
-                    _possessionSafetyActual.value = it.toString()
+                    _possessionSafetyActual.value = it
+
                 }
                 .onFailure {
-                    _possessionSafetyActual.value = "Error: $it"
+                    _possessionSafetyActual.value = 0
                 }
         }
     }
 
-    private val _personalSafetyActual = MutableLiveData<String>()
-    val personalSafetyActual: LiveData<String>
+    private val _personalSafetyActual = MutableLiveData<Int>()
+    val personalSafetyActual: LiveData<Int>
         get() = _personalSafetyActual
+
 
     fun setPersonalSafetyData(ori: String, offense: List<String>) {
         viewModelScope.launch {
             cdeRepository.getPersonalSafetyActual(ori, offense)
                 .onSuccess {
-                    _personalSafetyActual.value = it.toString()
+                    _personalSafetyActual.value = it
                 }
                 .onFailure {
-                    _personalSafetyActual.value = "Error: $it"
+                    _personalSafetyActual.value = 0
                 }
         }
     }
