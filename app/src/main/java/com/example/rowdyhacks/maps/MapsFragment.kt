@@ -10,12 +10,12 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.rowdyhacks.R
+import com.example.rowdyhacks.cde.CdeRepository
+import com.example.rowdyhacks.cde.network.CdeApiClient
 import com.example.rowdyhacks.databinding.FragmentMapsBinding
 import com.example.rowdyhacks.fade
 import com.example.rowdyhacks.geocoder.LocationRepository
@@ -25,7 +25,7 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MapStyleOptions
+import kotlinx.coroutines.Dispatchers
 
 class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLoadedCallback {
 
@@ -35,15 +35,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLoadedCallba
     private lateinit var mapView: MapView
     private lateinit var map: GoogleMap
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val geocoder = Geocoder(requireActivity())
-        val repository = LocationRepository(geocoder)
-
-        viewModel = ViewModelProvider(this,
-            MapsViewModelFactory(repository))[MapsViewModel::class.java]
-    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -63,6 +54,17 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLoadedCallba
             getMapAsync(this@MapsFragment)
             alpha = 0F
         }
+
+        val geocoder = Geocoder(requireActivity())
+        val locationRepository = LocationRepository(geocoder)
+        val carSafetyRepository = CdeRepository(
+            CdeApiClient.createApi(),
+            Dispatchers.Default
+        )
+
+
+        viewModel = ViewModelProvider(this, MapsViewModelFactory(
+            locationRepository, carSafetyRepository))[MapsViewModel::class.java]
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
@@ -158,6 +160,25 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLoadedCallba
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if(query != null) {
                     viewModel.setAddressText(query)
+                    viewModel.setCarSafetyData("TX0070100", "motor-vehicle-theft")
+                    viewModel.setPersonalSafetyData(
+                        "TX0070100",
+                        listOf(
+                            "aggravated-assault",
+                            "violent-crime",
+                            "homicide",
+                            "rape"
+                        )
+                    )
+                    viewModel.setPossessionSafetyData(
+                        "TX0070100",
+                        listOf(
+                            "burglary",
+                            "property-crime",
+                            "larceny",
+                            "robbery"
+                        )
+                    )
                 }
                 return false
             }
