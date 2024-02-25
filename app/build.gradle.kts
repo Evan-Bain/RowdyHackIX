@@ -60,4 +60,16 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
 
     implementation("com.google.android.gms:play-services-location:21.1.0")
+
+    // Network
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
+
+    implementation ("com.squareup.moshi:moshi:1.9.3")
+    implementation ("com.squareup.moshi:moshi-kotlin:1.9.3")
+
+    implementation ("com.squareup.okhttp3:okhttp:4.11.0")
+
+    //KOIN
+    implementation ("io.insert-koin:koin-android:3.1.5")
 }

@@ -5,11 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
+import com.example.rowdyhacks.cde.CdeRepository
 import com.example.rowdyhacks.geocoder.LocationData
 import com.example.rowdyhacks.geocoder.LocationRepository
+import kotlinx.coroutines.launch
 
 class MapsViewModel(
-    private val locationRepository: LocationRepository
+    private val locationRepository: LocationRepository,
+    private val carSafetyRepository: CdeRepository
 ) : ViewModel() {
 
     private val _addressText = MutableLiveData<String>()
@@ -42,15 +46,32 @@ class MapsViewModel(
     private fun getCity(locationData: LocationData): String {
         return locationData.city
     }
+
+    private val _carSafetyActual = MutableLiveData<String>()
+    val carSafetyActual: LiveData<String>
+        get() = _carSafetyActual
+
+    fun setCarSafetyData(ori: String, offense: String) {
+        viewModelScope.launch {
+            carSafetyRepository.getCarSafetyActual(ori, offense)
+                .onSuccess {
+                    _carSafetyActual.value = it.toString()
+                }
+                .onFailure {
+                    _carSafetyActual.value = "Error: $it"
+                }
+        }
+    }
 }
 
 class MapsViewModelFactory(
     private val locationRepository: LocationRepository,
+    private val carSafetyRepository: CdeRepository
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MapsViewModel::class.java)) {
-            return MapsViewModel(locationRepository) as T
+            return MapsViewModel(locationRepository, carSafetyRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
