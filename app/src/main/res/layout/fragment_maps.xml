@@ -24,18 +24,18 @@
             android:text="@{viewModel.carSafetyActual}" />
 
         <TextView
-            android:id="@+id/text_view_city"
+            android:id="@+id/text_view_possession_safety"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight=".125"
-            android:text="@{viewModel.city}" />
+            android:text="@{viewModel.possessionSafetyActual}" />
 
         <TextView
-            android:id="@+id/text_view_county"
+            android:id="@+id/text_view_personal_safety"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight=".125"
-            android:text="@{viewModel.county}" />
+            android:text="@{viewModel.personalSafetyActual}" />
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/map_view"
