@@ -64,12 +64,14 @@ dependencies {
     // Network
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
-
     implementation ("com.squareup.moshi:moshi:1.9.3")
     implementation ("com.squareup.moshi:moshi-kotlin:1.9.3")
-
     implementation ("com.squareup.okhttp3:okhttp:4.11.0")
 
-    //KOIN
-    implementation ("io.insert-koin:koin-android:3.1.5")
+
+    // Android Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
 }

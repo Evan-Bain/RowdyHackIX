@@ -22,4 +22,8 @@ object Globals {
         val robbery: List<Double> = listOf(98.6,86.1,81.8)
     )
 
+    val allBexarOri: List<String> = listOf(
+
+    )
+
 }
