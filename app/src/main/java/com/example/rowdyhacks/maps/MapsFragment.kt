@@ -1,6 +1,7 @@
 package com.example.rowdyhacks.maps
 
 import android.annotation.SuppressLint
+import android.location.Geocoder
 import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,9 +14,11 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.example.rowdyhacks.R
 import com.example.rowdyhacks.databinding.FragmentMapsBinding
 import com.example.rowdyhacks.fade
+import com.example.rowdyhacks.geocoder.LocationRepository
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -27,11 +30,20 @@ import com.google.android.gms.maps.model.MapStyleOptions
 class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLoadedCallback {
 
     private lateinit var binding: FragmentMapsBinding
-    private val viewModel: MapsViewModel by viewModels()
+    private lateinit var viewModel: MapsViewModel
 
     private lateinit var mapView: MapView
     private lateinit var map: GoogleMap
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val geocoder = Geocoder(requireActivity())
+        val repository = LocationRepository(geocoder)
+
+        viewModel = ViewModelProvider(this,
+            MapsViewModelFactory(repository))[MapsViewModel::class.java]
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -145,7 +157,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLoadedCallba
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if(query != null) {
-                    Toast.makeText(activity, query, Toast.LENGTH_LONG).show()
+                    viewModel.setAddressText(query)
                 }
                 return false
             }
