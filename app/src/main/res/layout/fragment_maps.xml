@@ -30,6 +30,7 @@
             android:id="@+id/card_safety_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:alpha="0"
             android:visibility="gone"
             style="?attr/materialCardViewElevatedStyle"
             app:layout_constraintStart_toStartOf="@id/left_guideline_maps"
@@ -70,6 +71,17 @@
             android:layout_height="wrap_content"
             app:layout_constraintGuide_percent=".95"
             android:orientation="horizontal"/>
+
+        <ProgressBar
+            android:id="@+id/loading_indicator"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:indeterminateTint="@color/md_theme_light_primary"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

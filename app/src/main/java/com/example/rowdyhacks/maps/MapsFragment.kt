@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.rowdyhacks.R
@@ -27,6 +28,8 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.coroutines.Dispatchers
 
 class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLoadedCallback {
@@ -37,6 +40,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLoadedCallba
     private lateinit var mapView: MapView
     private lateinit var map: GoogleMap
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true).apply {
+            duration = 5000
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -161,7 +171,32 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLoadedCallba
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if(query != null) {
-                    /*viewModel.setAddressText(query)
+
+                    binding.loadingIndicator.visibility = View.VISIBLE
+
+                    viewModel.city.observe(viewLifecycleOwner) {
+                        getValues()
+                    }
+
+                    viewModel.county.observe(viewLifecycleOwner) {
+                        getValues()
+                    }
+
+                    viewModel.carSafetyActual.observe(viewLifecycleOwner) {
+                        getValues()
+                    }
+
+                    viewModel.personalSafetyActual.observe(viewLifecycleOwner) {
+                        getValues()
+                    }
+
+                    viewModel.possessionSafetyActual.observe(viewLifecycleOwner) {
+                        getValues()
+                    }
+
+                    viewModel.setAddressText(query)
+
+
                     viewModel.setCarSafetyData("TX0070100", "motor-vehicle-theft")
                     viewModel.setPersonalSafetyData(
                         "TX0070100",
@@ -180,14 +215,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLoadedCallba
                             "larceny",
                             "robbery"
                         )
-                    )*/
-
-                    childFragmentManager
-                        .beginTransaction()
-                        .add(R.id.frag_container_safety_view, SafetyCardFragment())
-                        .commit()
-
-                    binding.cardSafetyView.visibility = View.VISIBLE
+                    )
                 }
                 return false
             }
@@ -200,5 +228,35 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapLoadedCallba
         })
 
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    private fun getValues() {
+        if (viewModel.carSafetyActual.value != null &&
+            viewModel.personalSafetyActual.value != null &&
+            viewModel.possessionSafetyActual.value != null &&
+            viewModel.city.value != null &&
+            viewModel.county.value != null) {
+            val bundle = Bundle()
+            bundle.putString("city", viewModel.city.value)
+            bundle.putString("county", viewModel.county.value)
+            bundle.putIntArray("safety_array",
+                intArrayOf(
+                    viewModel.carSafetyActual.value!!,
+                    viewModel.personalSafetyActual.value!!,
+                    viewModel.possessionSafetyActual.value!!
+                )
+            )
+
+            binding.loadingIndicator.visibility = View.GONE
+
+            binding.cardSafetyView.fade(true)
+
+            val safetyCardFragment = SafetyCardFragment()
+            safetyCardFragment.arguments = bundle
+            childFragmentManager
+                .beginTransaction()
+                .add(R.id.frag_container_safety_view, safetyCardFragment)
+                .commit()
+        }
     }
 }
