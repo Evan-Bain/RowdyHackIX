@@ -35,45 +35,32 @@ public class statistics {
     }
 
 
-    public double getCrimeRate(String[] userData, int totalPop ) {
-        String data = userData[0];
+    public double getCrimeRate(int [] totalCrimes) {
+        //String data = userData[0];
+        final double bexarCountyPop2017 = 1956988.0;
+        final double bexarCountyPop2018 = 1981187.0;
+        final double bexarCountyPop2019 = 2003554.0;
         int[] totalCrimesPerYear = new int[3];
         //need to grab data based on ori
-        int[] totalCrimesFromData = new int[3];
-        int[] totalCrimes = new int[3];
-        int[] practicePopulation = new int[3];
+
         double averageCrimeRate;
-        practicePopulation[0] = 100000;
-        practicePopulation[1] = 102930;
-        practicePopulation[2] = 123098;
+
         double[] averageCrimeRatePerYear = new double[3];
 
-        totalCrimesFromData[0] = 12000;
-        totalCrimesFromData[1] = 13000;
-        totalCrimesFromData[2] = 14000;
+
 
         int i = 0;
-        for (i = 0; i < 3; ++i) {
-            if (i == 0) {
-                totalCrimes[i] = totalCrimesFromData[i];
-            }
-            if (i == 1) {
-                totalCrimes[i] = totalCrimesFromData[i];
-            }
-            if (i == 2) {
-                totalCrimes[i] = totalCrimesFromData[i];
-            }
-        }
+
 
         for (i = 0; i < 3; ++i) {
             if (i == 0) {
-                averageCrimeRatePerYear[i] = ((totalCrimes[i] + .00) / (practicePopulation[i] + .00));
+                averageCrimeRatePerYear[i] = ((totalCrimes[i] + .00) / (bexarCountyPop2017));
             }
             if (i == 1) {
-                averageCrimeRatePerYear[i] = ((totalCrimes[i] + .00) / (practicePopulation[i] + .00));
+                averageCrimeRatePerYear[i] = ((totalCrimes[i] + .00) / (bexarCountyPop2018));
             }
             if (i == 2) {
-                averageCrimeRatePerYear[i] = ((totalCrimes[i] + .00) / (practicePopulation[i] + .00));
+                averageCrimeRatePerYear[i] = ((totalCrimes[i] + .00) / (bexarCountyPop2019));
             }
         }
 
