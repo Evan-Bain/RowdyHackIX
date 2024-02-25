@@ -1,12 +1,8 @@
 package com.example.rowdyhacks.cde.network
 
-import android.util.Log
 import com.example.rowdyhacks.Globals.CDE_API_KEY
 import com.example.rowdyhacks.Globals.CDE_BASE_URL
-import com.example.rowdyhacks.cde.CarSafetyModel
-import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
